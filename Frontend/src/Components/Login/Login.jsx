@@ -1,47 +1,47 @@
 import React, { useState } from 'react';
 import { loginUser } from '../../api';
-import './Login.css'; 
+import './Login.css';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [token, setToken] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        if (!email || !password) {
+            toast.error("Please enter both email and password");
+            return;
+        }
+
         try {
             const response = await loginUser({ email, password });
-            setToken(response.data.token);
-            setMessage(`Login successful! Welcome, ${response.data.name}`);
             localStorage.setItem('token', response.data.token);
+            toast.success(`Login successful! Welcome, ${response.data.name}`);
+           
+            setTimeout(() => {
+                navigate("/profile");
+            }, 2000);
         } catch (error) {
-            setMessage('Login failed. ' + error.response.data.message);
+            const errorMsg = error.response?.data?.message || "Login failed.";
+            toast.error(errorMsg);
         }
     };
 
     return (
-        <div className="login-container">
+        <div className="container">
+            <ToastContainer/>
             <h2>Login</h2>
-            <form onSubmit={handleLogin} className="login-form">
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="form-input"
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-input"
-                />
-                <button type="submit" className="login-button">Login</button>
+            <form onSubmit={handleLogin} className="form">
+                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-input" required />
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-input" required />
+                <button type="submit" className="button">Login</button>
             </form>
-            {message && <p className="message">{message}</p>}
-            {token && <p className="token-info">Your JWT token: {token}</p>}
+            <p className="toggle-link" onClick={() => navigate("/")}>Don't have an account? Sign Up</p>
         </div>
     );
 };
