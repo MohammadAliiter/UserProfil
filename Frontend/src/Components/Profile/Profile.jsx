@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { updateUserProfile } from '../../api';
 import './Profile.css'; 
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const Navigate = useNavigate();
 
     useEffect(() => {
         
@@ -19,6 +21,7 @@ const Profile = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
+        Navigate("/profile")
         if (!token) {
             setMessage('Please log in to update your profile.');
             return;

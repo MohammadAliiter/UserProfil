@@ -8,10 +8,10 @@ import SignUp from './Components/Signup/Signup';
 const App = () => {
     return (
         <Router>
-            <Navbar />
+            
             <div className="container">
                 <Routes>
-                    <Route path="/signup" element={<SignUp/>} />
+                    <Route path="/" element={<SignUp/>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>

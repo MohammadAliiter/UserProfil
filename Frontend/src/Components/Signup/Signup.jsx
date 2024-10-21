@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { registerUser } from '../../api';
 import './SignUp.css'; 
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [name, setName] = useState('');
@@ -11,6 +12,7 @@ const SignUp = () => {
     const [message, setMessage] = useState('');
 
     const handleRegister = async (e) => {
+        const Navigate = useNavigate();
         e.preventDefault();
         try {
             
@@ -24,7 +26,9 @@ const SignUp = () => {
             setMessage(`Registration successful! Welcome, ${response.data.name}`);
         } catch (error) {
             setMessage('Registration failed. ' + error.response.data.message);
-        }
+        } 
+        Navigate("/login") 
+        
     };
 
     return (
