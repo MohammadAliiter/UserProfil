@@ -54,14 +54,14 @@ const SignUp = () => {
                 />
                 <input
                     type="text"
-                    placeholder="Mobile Number" // New mobile input
+                    placeholder="Mobile Number" 
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                     className="form-input"
                 />
                 <input
                     type="text"
-                    placeholder="Address" // New address input
+                    placeholder="Address" 
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className="form-input"
